@@ -1,0 +1,3 @@
+[submodule "vendor/ngenuity-linux-cli"]
+	path = vendor/ngenuity-linux-cli
+	url = https://github.com/PMarinov1994/ngenuity-linux-cli.git
