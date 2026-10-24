@@ -1,0 +1,22 @@
+[project]
+name = "open-ngenuity"
+version = "0.1.0"
+description = "GTK app to set DPI and polling rate on the HyperX Pulsefire Haste 2 Core Wireless"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Zeeshan" }]
+dependencies = ["ngenuity-linux-cli"]
+
+[project.scripts]
+open-ngenuity = "open_ngenuity.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/open_ngenuity"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src" = ""

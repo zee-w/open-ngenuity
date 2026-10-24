@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.zeeshan.OpenNGenuity</id>
+  <name>Open NGenuity</name>
+  <summary>Control DPI and polling rate on a HyperX Pulsefire Haste 2 Core Wireless</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>
+      HyperX NGENUITY is Windows-only. Open NGenuity is a small Linux app that talks
+      to the Pulsefire Haste 2 Core Wireless 2.4 GHz dongle through the existing
+      ngenuity CLI and lets you change DPI stages and polling rate.
+    </p>
+    <p>
+      Bluetooth mode cannot be configured. Install the bundled udev rule on the host
+      so the app can open the vendor HID interface without root.
+    </p>
+  </description>
+  <launchable type="desktop-id">io.github.zeeshan.OpenNGenuity.desktop</launchable>
+  <categories>
+    <category>Utility</category>
+  </categories>
+  <requires>
+    <display>true</display>
+  </requires>
+  <content_rating type="oars-1.1"/>
+</component>

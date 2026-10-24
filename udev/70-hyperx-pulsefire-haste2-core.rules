@@ -1,0 +1,5 @@
+# HyperX Pulsefire Haste 2 Core Wireless dongle (03f0:0ab5), vendor IF 2 only.
+# Install on the host (Flatpak cannot install udev rules):
+#   sudo cp udev/70-hyperx-pulsefire-haste2-core.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload && sudo udevadm trigger
+SUBSYSTEM=="hidraw", ENV{ID_USB_VENDOR_ID}=="03f0", ENV{ID_USB_MODEL_ID}=="0ab5", ENV{ID_USB_INTERFACE_NUM}=="02", TAG+="uaccess"

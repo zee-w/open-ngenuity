@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Open NGenuity
+Comment=Set DPI and polling rate on HyperX Pulsefire Haste 2 Core Wireless
+Exec=open-ngenuity
+Icon=io.github.zeeshan.OpenNGenuity
+Terminal=false
+Type=Application
+Categories=Utility;HardwareSettings;
+Keywords=hyperx;mouse;dpi;polling;ngenuity;
+StartupNotify=true

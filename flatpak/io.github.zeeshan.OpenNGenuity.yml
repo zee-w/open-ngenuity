@@ -1,0 +1,72 @@
+app-id: io.github.zeeshan.OpenNGenuity
+runtime: org.gnome.Platform
+runtime-version: "49"
+sdk: org.gnome.Sdk
+command: open-ngenuity
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # hidraw access for the HyperX vendor interface. Broader than --device=usb;
+  # required so the bundled ngenuity CLI can open /dev/hidraw*.
+  - --device=all
+modules:
+  - name: python3-click
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --prefix=${FLATPAK_DEST} click-8.5.0-py3-none-any.whl
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/58/50/6c0d534c5f134586a8e1ba4e330569e32f057e33372ae556463212fb4cd3/click-8.5.0-py3-none-any.whl
+        sha256: 255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360
+        dest-filename: click-8.5.0-py3-none-any.whl
+
+  - name: ngenuity-linux-cli
+    buildsystem: simple
+    build-commands:
+      - |
+        set -e
+        PYVER=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+        SITE="${FLATPAK_DEST}/lib/python${PYVER}/site-packages"
+        install -d "${SITE}" "${FLATPAK_DEST}/bin" "${SITE}/ngenuity_linux_cli-2.0.1.dist-info"
+        cp -a src/ngenuity_linux_cli "${SITE}/"
+        find "${SITE}/ngenuity_linux_cli" -type d -name '__pycache__' -exec rm -rf {} +
+        printf '%s\n' 'Metadata-Version: 2.1' 'Name: ngenuity-linux-cli' 'Version: 2.0.1' \
+          > "${SITE}/ngenuity_linux_cli-2.0.1.dist-info/METADATA"
+        printf '%s\n' '[console_scripts]' 'ngenuity=ngenuity_linux_cli.cli:main' \
+          > "${SITE}/ngenuity_linux_cli-2.0.1.dist-info/entry_points.txt"
+        printf '%s\n' '#!/usr/bin/env python3' 'from ngenuity_linux_cli.cli import main' \
+          'if __name__ == "__main__":' '    main()' \
+          > "${FLATPAK_DEST}/bin/ngenuity"
+        chmod 755 "${FLATPAK_DEST}/bin/ngenuity"
+    sources:
+      - type: dir
+        path: ../vendor/ngenuity-linux-cli
+
+  - name: open-ngenuity
+    buildsystem: simple
+    build-commands:
+      - |
+        set -e
+        PYVER=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+        SITE="${FLATPAK_DEST}/lib/python${PYVER}/site-packages"
+        install -d "${SITE}" "${FLATPAK_DEST}/bin"
+        cp -a src/open_ngenuity "${SITE}/"
+        find "${SITE}/open_ngenuity" -type d -name '__pycache__' -exec rm -rf {} +
+        printf '%s\n' '#!/usr/bin/env python3' 'from open_ngenuity.main import main' \
+          'import sys' 'if __name__ == "__main__":' '    raise SystemExit(main())' \
+          > "${FLATPAK_DEST}/bin/open-ngenuity"
+        chmod 755 "${FLATPAK_DEST}/bin/open-ngenuity"
+        install -D -m 644 data/io.github.zeeshan.OpenNGenuity.desktop \
+          "${FLATPAK_DEST}/share/applications/io.github.zeeshan.OpenNGenuity.desktop"
+        install -D -m 644 data/io.github.zeeshan.OpenNGenuity.metainfo.xml \
+          "${FLATPAK_DEST}/share/metainfo/io.github.zeeshan.OpenNGenuity.metainfo.xml"
+        install -D -m 644 data/io.github.zeeshan.OpenNGenuity.svg \
+          "${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/io.github.zeeshan.OpenNGenuity.svg"
+    sources:
+      - type: dir
+        path: ../src
+        dest: src
+      - type: dir
+        path: ../data
+        dest: data

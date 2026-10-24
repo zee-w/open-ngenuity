@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.flatpak-builder/
+.build-dir/
+build-dir/
+.ccache/
+repo/
+*.flatpak
+.pytest_cache/
